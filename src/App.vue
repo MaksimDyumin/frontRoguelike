@@ -1,14 +1,16 @@
 <template>
-  <Canvas />
+<div class="mainContainer">
+  <RegForm />
+</div>
 </template>
 
 <script>
-import Canvas from './components/Canvas.vue'
+import RegForm from './components/RegistrationForm.vue'
 
 export default {
   name: 'App',
   components: {
-    Canvas
+    RegForm
   }
 }
 </script>
@@ -20,6 +22,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
+
+.mainContainer{
+  background-color: #3399CC;
+  height: 100vh;
+}
+
 </style>
