@@ -1,83 +1,83 @@
 <template>
-    <div class="container">
-            <header>
-                <h1>Login and Registration Form <span>with HTML5 and CSS3</span></h1>
-            </header>
-            <section>				
-                <div id="container_demo" >
-                    <a class="hiddenanchor" id="toregister"></a>
-                    <a class="hiddenanchor" id="tologin"></a>
-                    <div id="wrapper">
-                        <div id="login" class="animate form">
-                            <form  action="" autocomplete="on"> 
-                                <h1>Log in</h1> 
-                                <p> 
-                                    <label for="username" class="uname" data-icon="u" > Your email or username </label>
-                                    <input id="username" name="username" required="required" type="text" placeholder="myusername or mymail@mail.com"/>
-                                </p>
-                                <p> 
-                                    <label for="password" class="youpasswd" data-icon="p"> Your password </label>
-                                    <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO" /> 
-                                </p>
-                                <p class="keeplogin"> 
-									<input type="checkbox" name="loginkeeping" id="loginkeeping" value="loginkeeping" /> 
-									<label for="loginkeeping">Keep me logged in</label>
-								</p>
-                                <p class="login button"> 
-                                    <input type="submit" value="Login" /> 
-								</p>
-                                <p class="change_link">
-									Not a member yet ?
-									<a href="#toregister" class="to_register">Join us</a>
-								</p>
-                            </form>
-                        </div>
-
-                        <div id="register" class="animate form">
-                            <form  action="" autocomplete="on"> 
-                                <h1> Sign up </h1> 
-                                <p> 
-                                    <label for="usernamesignup" class="uname" data-icon="u">Your username</label>
-                                    <input id="usernamesignup" name="usernamesignup" required="required" type="text" placeholder="mysuperusername690" />
-                                </p>
-                                <p> 
-                                    <label for="emailsignup" class="youmail" data-icon="e" > Your email</label>
-                                    <input id="emailsignup" name="emailsignup" required="required" type="email" placeholder="mysupermail@mail.com"/> 
-                                </p>
-                                <p> 
-                                    <label for="passwordsignup" class="youpasswd" data-icon="p">Your password </label>
-                                    <input id="passwordsignup" name="passwordsignup" required="required" type="password" placeholder="eg. X8df!90EO"/>
-                                </p>
-                                <p> 
-                                    <label for="passwordsignup_confirm" class="youpasswd" data-icon="p">Please confirm your password </label>
-                                    <input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password" placeholder="eg. X8df!90EO"/>
-                                </p>
-                                <p class="signin button"> 
-									<input type="submit" value="Sign up"/> 
-								</p>
-                                <p class="change_link">  
-									Already a member ?
-									<a href="#tologin" class="to_register"> Go and log in </a>
-								</p>
-                            </form>
-                        </div>
-						
-                    </div>
-                </div>  
-            </section>
+    <div class="registrationForm">
+        <div class="registrationFields">
+            <h1>Регистрация</h1>
+            <input v-model="user_login" type="text" name="username" placeholder="Имя пользователя" />
+            <input v-model="user_password" type="password" name="password" placeholder="Пароль" />
+            <input v-model="user_password2" type="password" name="password2" placeholder="Повторите пароль" />
+            <span id="error">{{ errorMessage }}</span>
+            <input type="submit" value="Создать аккаунт" @click="reg()" />
+            <p class="line">  
+                Уже зарегистрированы?
+                <router-link to="/login"> Авторизация </router-link>
+            </p>
         </div>
+        <div class="registrationServices">
+            <input type="image" src="VK_logo.png" @click="regVK()" />
+            <input type="image" src="Google_logo.png" @click="regGoogle()" />
+            <input type="image" src="Facebook_logo.png" @click="regFacebook()" />
+        </div>
+    </div>
 </template>
 
 <script>
-import '@/assets/css/animate-custom.css';
-import '@/assets/css/style.css';
-import '@/assets/css/demo.css';
 
 export default {
     name: 'RegForm',
+    data() {
+        return {
+            user_login : "",
+            user_password : "",
+            user_password2 : "",
+            errorMessage : ""
+        }
+    },
+    methods:{
+        reg() {
+            if (this.user_password == this.user_password2) {
+                const requestOptions = {
+                    method: "POST",
+                    headers: { 
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        login : this.user_login,
+                        password : this.user_password
+                    })
+                }
+                console.log(requestOptions)
+                fetch("http://server.diwos.ru/user", requestOptions)
+                    .then(response => {
+                        console.log(response)
+                        if (response.status != 201) {
+                            alert("Ошибка")
+                        }
+                        this.$router.push('game')
+                    });
+            } else {
+                const error = document.getElementById('error')
+                this.errorMessage = "Пароли не совпадают"
+                error.style.display = "block";
+                setTimeout(()=>{
+                    error.style.opacity = 1;
+                },5)
+            }
+        }
+    },
+    mounted() {
+        if (localStorage.token) {
+            this.$router.push('game')
+        }
+    }
 }
 </script>
 
-<style>
 
+<style scoped>
+    #error {
+        display: block;
+        opacity: 0;
+        transition: all 0.5s ease;
+        margin-bottom: 15px;
+    }
 </style>

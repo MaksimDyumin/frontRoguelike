@@ -10,8 +10,7 @@
             </div>
 
             <div class="menuDevContainer" 
-            v-if="isDevMenuVisible"
-            >
+            v-if="isDevMenuVisible">
                 <input type="submit" value="выбор объектов" @click="objectSelection()" />   
                 <input type="submit" value="загрузка картинки" @click="uploadingImage()" />
                 <input type="submit" value="создание/редактирование объекта" @click="creatingEditing()" />
@@ -30,7 +29,8 @@ export default {
 
     data(){
         return{
-            isDevMenuVisible: true
+            isDevMenuVisible: false,
+            result1: ""
         }
     },
     mounted() {
@@ -38,16 +38,28 @@ export default {
             this.$router.push('login')
         }
         
-        const requestOptions = {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                
-            })
+        // const requestOptions = {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify({
 
-        }
+        //     })
+        // }
+
+        fetch("http://server.diwos.ru/user/?login=test")
+        .then(response => response.json())
+        .then(result =>{
+            console.log(result._id)
+            if(result._id == "61da0175179532fd384049da"){this.isDevMenuVisible = true}
+            if (result.statusCode){
+                if (result.statusCode == 401){
+                    alert("Ошибка")
+                    return
+                }
+            }
+        });
     }
 }
 </script>
@@ -71,7 +83,6 @@ export default {
     justify-content: center;
     border-radius: 5px;
     min-width: 150px;
-    overflow: hidden;
     background-color: white;
 }
 
