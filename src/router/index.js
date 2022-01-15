@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Register from '../components/RegistrationForm'
-import Auth from '../components/AuthorizationForm'
-import ToolBar from '../components/ToolBar'
+import Register from '../components/loginForms/Registration'
+import Auth from '../components/loginForms/Authorization'
+import MainGamePage from '../components/MainGamePage.vue'
 
 
 const routes = [
@@ -19,7 +19,7 @@ const routes = [
   },
   {
     path: '/game',
-    component : ToolBar
+    component : MainGamePage
   },
   // {
   //   path: '*'

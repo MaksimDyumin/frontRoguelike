@@ -2,7 +2,10 @@
 import * as io from "socket.io-client";
 
 const socket = io('http://server.diwos.ru/', {
-// allowEIO3: true // false by default
+    extraHeaders: {
+        Aasdfasdf: `asdfasdfasdf`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
 })
 
 socket.connect();
@@ -17,10 +20,11 @@ console.log('in', error);
 });
 
 document.addEventListener('keydown', (event) => {
-    sendSocketMessage( 'keydown', event.key );
+    sendSocketMoveMessage( 'keydown', event.code );
+    // sendSocketMessage( 'keydown', event.code );
 });
 
-function sendSocketMessage( action, data ) {
+function sendSocketMoveMessage( action, data ) {
 
     const socketMessage = {};
     socketMessage.token = localStorage.getItem('token');
@@ -32,6 +36,13 @@ function sendSocketMessage( action, data ) {
 
 }
 
+function sendSocketMessage ( socket, eventType, data ) {
+
+    socket.emit(eventType, data);
+
+}
+
 export {
-    socket
+    socket,
+    sendSocketMessage
 }

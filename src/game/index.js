@@ -9,7 +9,7 @@ socket.on('world', (world) => {
     localStorage.setItem('mainObjects', JSON.stringify(world))
 
     if (world) {
-        world.forEach(obj => {
+        world.data.forEach(obj => {
             graphics.graphishDrawInfoUpdate(obj)
         });
     }

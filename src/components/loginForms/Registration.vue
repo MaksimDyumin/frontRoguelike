@@ -1,27 +1,28 @@
 <template>
-    <div class="registrationForm">
-        <div class="registrationFields">
-            <h1>Регистрация</h1>
-            <input v-model="user_login" type="text" name="username" placeholder="Имя пользователя" />
-            <input v-model="user_password" type="password" name="password" placeholder="Пароль" />
-            <input v-model="user_password2" type="password" name="password2" placeholder="Повторите пароль" />
-            <span id="error">{{ errorMessage }}</span>
-            <input type="submit" value="Создать аккаунт" @click="reg()" />
-            <p class="line">  
-                Уже зарегистрированы?
-                <router-link to="/login"> Авторизация </router-link>
-            </p>
-        </div>
-        <div class="registrationServices">
-            <input type="image" src="VK_logo.png" @click="regVK()" />
-            <input type="image" src="Google_logo.png" @click="regGoogle()" />
-            <input type="image" src="Facebook_logo.png" @click="regFacebook()" />
+    <div class="wrapper">
+        <div class="registrationForm">
+            <div class="registrationFields">
+                <h1>Регистрация</h1>
+                <input v-model="user_login" class="inputText" type="text" name="username" placeholder="Имя пользователя" />
+                <input v-model="user_password" class="inputText" type="password" name="password" placeholder="Пароль" />
+                <input v-model="user_password2" class="inputText" type="password" name="password2" placeholder="Повторите пароль" />
+                <span id="error">{{ errorMessage }}</span>
+                <input class="inputSubmit"  type="submit" value="Создать аккаунт" @click="reg()" />
+                <p class="line"> Уже зарегистрированы?
+                    <router-link to="/login"> Авторизация </router-link>
+                </p>
+            </div>
+            <div class="registrationServices">
+                <input type="image" src="VK_logo.png" @click="regVK()" />
+                <input type="image" src="Google_logo.png" @click="regGoogle()" />
+                <input type="image" src="Facebook_logo.png" @click="regFacebook()" />
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-
+import '@/assets/css/LoginForm.scss'
 export default {
     name: 'RegForm',
     data() {
@@ -71,13 +72,3 @@ export default {
     }
 }
 </script>
-
-
-<style scoped>
-    #error {
-        display: block;
-        opacity: 0;
-        transition: all 0.5s ease;
-        margin-bottom: 15px;
-    }
-</style>
